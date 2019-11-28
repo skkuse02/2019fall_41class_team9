@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { StatusBar, SafeAreaView } from 'react-native';
 
 import {
@@ -10,6 +10,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Styled from 'styled-components/native';
+
+import SplashScreen from 'react-native-splash-screen';
 
 const ScrollView = Styled.ScrollView`
   background-color: ${Colors.lighter};
@@ -38,6 +40,13 @@ const HighLight = Styled.Text`
 interface Props {}
 
 const App = ({  }: Props) => {
+
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 2000);
+  }, []);
+
   return (
     <Fragment>
       <StatusBar barStyle="dark-content" />
