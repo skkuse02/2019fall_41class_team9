@@ -2,7 +2,6 @@ import React from 'react';
 import Styled from 'styled-components/native';
 
 const StyleButton = Styled.TouchableOpacity`
-  width: 100%;
   height: 40px;
   border-radius: 4px;
   justify-content: center;
