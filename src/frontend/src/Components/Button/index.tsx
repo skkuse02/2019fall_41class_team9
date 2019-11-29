@@ -7,8 +7,8 @@ const StyleButton = Styled.TouchableOpacity`
   border-radius: 4px;
   justify-content: center;
   align-items: center;
-  border: 1px;
-  border-color: #333333;
+  border-color: #e94e77;
+  background-color : #e94e77;
 `;
 const Label = Styled.Text`
   color: #FFFFFF;
@@ -17,13 +17,14 @@ const Label = Styled.Text`
 interface Props {
   label: string;
   style?: Object;
+  color?: string;
   onPress?: () => void;
 }
 
-const Button = ({ label, style, onPress }: Props) => {
+const Button = ({ label, style, color, onPress }: Props) => {
   return (
     <StyleButton style={style} onPress={onPress}>
-      <Label>{label}</Label>
+      <Label style={{ color: color ? color : '#FFFFFF' }}>{label}</Label>
     </StyleButton>
   );
 };

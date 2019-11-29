@@ -10,20 +10,30 @@ import {
 import CheckLogin from '~/Screens/CheckLogin';
 import Login from '~/Screens/Login';
 import Main from '~/Screens/Main';
+import {SignUp, SignUpDone} from '~/Screens/SignUp';
 
 const LoginNavigator = createStackNavigator({
     Login,
+    SignUp,
 });
+
 
 const MainNavigator = createStackNavigator({
     Main,
 });
+
+const SignUpDoneNavigator = createStackNavigator( {
+    SignUpDone,
+});
+
+
 
 const AppNavigator = createSwitchNavigator(
     {
         CheckLogin,
         LoginNavigator,
         MainNavigator,
+        SignUpDoneNavigator,
     },
     {
         initialRouteName: 'CheckLogin',

@@ -16,6 +16,8 @@ interface Props {
 }
 
 const CheckLogin = ({ navigation }: Props) => {
+
+  /*
   AsyncStorage.getItem('key')
     .then(value => {
       if (value) {
@@ -27,6 +29,9 @@ const CheckLogin = ({ navigation }: Props) => {
     .catch((error: Error) => {
       console.log(error);
     });
+  */
+  navigation.navigate('LoginNavigator');
+
 
   return (
     <Container>
