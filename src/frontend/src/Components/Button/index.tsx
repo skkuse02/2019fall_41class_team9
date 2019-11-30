@@ -18,11 +18,12 @@ interface Props {
   style?: Object;
   color?: string;
   onPress?: () => void;
+  disabled? : boolean;
 }
 
-const Button = ({ label, style, color, onPress }: Props) => {
+const Button = ({ label, style, color, onPress, disabled }: Props) => {
   return (
-    <StyleButton style={style} onPress={onPress}>
+    <StyleButton style={style} onPress={onPress} disabled={disabled}>
       <Label style={{ color: color ? color : '#FFFFFF' }}>{label}</Label>
     </StyleButton>
   );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, MutableRefObject } from 'react';
 import Styled from 'styled-components/native';
 import { StyledComponent } from 'styled-components';
-import { Color } from 'csstype';
 
 const Container = Styled.View`
   width: 100%;
@@ -11,10 +10,11 @@ const Container = Styled.View`
   background-color: #FFF;
   border-bottom-width: 1;
   border-bottom-color:  #CCC;
+  font-size : 20px;
 `;
 const InputField = Styled.TextInput`
   flex: 1;
-  
+  font-size : 17px;
 `;
 
 interface Props {
@@ -45,22 +45,21 @@ const Input = ({
 
   return (
     <Container style={style} >
-      <InputField
-        secureTextEntry={secureTextEntry}
-        keyboardType={keyboardType ? keyboardType : 'default'}
-        autoCapitalize="none"
-        autoCorrect={false}
-        allowFontScaling={false}
-        placeholderTextColor="#CCC"
-        placeholder={placeholder}
-        clearButtonMode={clearMode ? 'while-editing' : 'never'}
-        onChangeText={onChangeText}
-        value = {value}
-        onSubmitEditing =  {onSubmitEditing}
-        onFocus = {onFocus}
-        onBlur = {onBlur}
-
-      />
+        <InputField
+          secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType ? keyboardType : 'default'}
+          autoCapitalize="none"
+          autoCorrect={false}
+          allowFontScaling={false}
+          placeholderTextColor="#CCC"
+          placeholder={placeholder}
+          clearButtonMode={clearMode ? 'while-editing' : 'never'}
+          onChangeText={onChangeText}
+          value = {value}
+          onSubmitEditing =  {onSubmitEditing}
+          onFocus = {onFocus}
+          onBlur = {onBlur}
+        />
     </Container>
   );
 };

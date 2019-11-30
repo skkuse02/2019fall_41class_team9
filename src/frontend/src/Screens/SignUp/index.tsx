@@ -2,20 +2,26 @@ import React, { useState, useEffect, Component } from 'react';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
 import {CheckBox} from 'react-native';
 import Styled from 'styled-components/native';
-
 import Button from '~/Components/Button';
-import Tab from '~/Components/Tab';
+import Input from '~/Components/Input';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {isEmail, isPassword, isMatchPassword} from '~/Components/Auth';
 
 const Container = Styled.SafeAreaView`
   flex: 1;
   background-color: #FEFFFF;
 `;
 
+const FormContainer = Styled.View`
+  width: 100%;
+  padding: 20px;
+`;
+
 const Title = Styled.Text `
   font-weight : bold;
   font-size : 24px;
   margin: 20px;
-  margin-top : 100px;
+  margin-top : 120px;
   margin-bottom : 40px;
 `;
 
@@ -54,6 +60,12 @@ const Read = Styled.Text`
 `;
 const View = Styled.View ``;
 
+const Notification = Styled.Text `
+  color : #e94e77;
+  font-size : 14px;
+  margin-bottom : 20px;
+`;
+
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
 }
@@ -72,7 +84,6 @@ const SignUp = ({ navigation }: Props) => {
     else
       setAllCheck(false);
   }, [isChecked, isChecked2]);
-
 
   return (
     <Container>
@@ -121,8 +132,9 @@ const SignUp = ({ navigation }: Props) => {
       </Box>  
 
         <Button label="다음"
-          onPress={() => {}}  
-          style={{ marginBottom: 24, marginTop: 50, marginLeft : 24, marginRight : 24}} />
+          disabled = {!isAllChecked}
+          onPress={() => navigation.navigate('SignUp2')}  
+          style={isAllChecked? { marginBottom: 24, marginTop: 50, marginLeft : 24, marginRight : 24} : { marginBottom: 24, marginTop: 50, marginLeft : 24, marginRight : 24, backgroundColor : "silver"}} />
       <Footer>
         <FooterDescription>
           이미 계정이 있으신가요?{' '}
@@ -146,6 +158,107 @@ SignUp.navigationOptions = {
   
 };
 
+const SignUp2 = ({ navigation }: Props) => {
+  const [email, setEmail] = useState<string>('');
+  const [emailNoti, setEmailNoti] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [passwordNoti, setPasswordNoti] = useState<string>('');
+  const [password2, setPassword2] = useState<string>('');
+  const [password2Noti, setPassword2Noti] = useState<string>('');
+  const [isFocus, setIsFocus] = useState<boolean>(false);
+  const [isFocus2, setIsFocus2] = useState<boolean>(false);
+  const [isFocus3, setIsFocus3] = useState<boolean>(false);
+  const [activation, setActivation] = useState<boolean>(false);
+
+  useEffect(() => {
+    if(isEmail(email) && isPassword(password) && isMatchPassword(password, password2))
+      setActivation(true);
+    else
+      setActivation(false);
+  }, [email, password, password2]);
+
+  return (
+    <KeyboardAwareScrollView>
+      <Container>
+        <FormContainer>
+          <Title style={{marginTop : 70, marginLeft : 0}}>회원 정보 입력</Title>
+          <Read style={{color : "silver"}} >이메일</Read>
+          <Input
+            style={{marginBottom: 5, borderBottomColor : isFocus? '#e94e77' : '#CCC'}}
+            value = {email}
+            onChangeText = {(value) => {setEmail(value)}}
+            onFocus = {() => setIsFocus(true)}
+            onBlur = {() => {
+              if(!isEmail(email)) {
+                setEmailNoti("⤷입력이 올바르지 않습니다.");
+              }
+              else {
+                setEmailNoti("");
+                setIsFocus(false);
+              }
+            }}
+            />
+          <Notification>{emailNoti}</Notification>
+
+          <Read style={{color : "silver"}} >비밀번호</Read>
+          <Input
+            style={{ marginBottom: 5, borderBottomColor : isFocus2? '#e94e77' : '#CCC'}}
+            value = {password}
+            secureTextEntry={true}
+            onChangeText = {(value) => {setPassword(value)}}
+            onFocus = {() => setIsFocus2(true)}
+            onBlur = {() => {
+              if(!isPassword(password)) {
+                setPasswordNoti("⤷비밀번호는 6자리 이상 16자리 이하입니다.")
+              }
+              else {
+                setPasswordNoti("");
+                setIsFocus2(false);  
+              }
+            }}
+            />
+          <Notification>{passwordNoti}</Notification>
+          <Read style={{color : "silver"}} >비밀번호 확인</Read>
+          <Input
+            style={{ marginBottom: 5, borderBottomColor : isFocus3? '#e94e77' : '#CCC'}}
+            secureTextEntry={true}
+            value = {password2}
+            onChangeText = {(value) => {setPassword2(value)}}
+            onFocus = {() => setIsFocus3(true)}
+            onBlur = {() => {
+              if(!isMatchPassword(password, password2)) {
+                setPassword2Noti("⤷비밀번호가 일치하지 않습니다.")
+              }
+              else {
+                setPassword2Noti("");
+                setIsFocus3(false);  
+              }
+            }}
+          />
+          <Notification>{password2Noti}</Notification>
+        </FormContainer>
+      </Container>
+      <Button label="다음"
+          disabled = {!activation}
+          onPress={() => navigation.navigate('SignUpDone')}  
+          style={activation? { marginBottom: 24, marginTop: 0, marginLeft : 24, marginRight : 24} : { marginBottom: 24, marginTop: 0, marginLeft : 24, marginRight : 24, backgroundColor:"silver"}} />
+    </KeyboardAwareScrollView>
+  );
+};
+
+SignUp2.navigationOptions = {
+  title : 'EAT NOW',
+  headerTintColor : '#e94e77',
+  headerTransparent : true,
+  headerTitleStyle : {
+    fontWeight : 'bold',
+    textAlign : 'center',
+    flex : 1,
+  },
+  headerRight : (<View />),
+  
+};
+
 
 const SignUpDone = ({ navigation }: Props) => {
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -153,17 +266,6 @@ const SignUpDone = ({ navigation }: Props) => {
 
   return (
     <Container>
-      <TabContainer>
-        {tabs.map((label: string, index: number) => (
-          <Tab
-            key={`tab-${index}`}
-            selected={tabIndex === index}
-            label={label}
-            onPress={() => setTabIndex(index)}
-          />
-        ))}
-      </TabContainer>
-
       <Description>
         회원가입을 환영합니다
       </Description>
@@ -180,4 +282,4 @@ const SignUpDone = ({ navigation }: Props) => {
 };
 
 
-export {SignUp, SignUpDone};
+export {SignUp, SignUp2, SignUpDone};

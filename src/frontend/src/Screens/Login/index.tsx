@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
 import { Linking, TextInputProps, DocumentSelectionState } from 'react-native';
@@ -9,6 +9,8 @@ import Button from '~/Components/Button';
 import { JSXElement, JSXAttribute } from '@babel/types';
 import { TextInput } from 'react-native-gesture-handler';
 import styled from 'styled-components';
+import {isEmail, isPassword} from '~/Components/Auth';
+
 
 const Container = Styled.SafeAreaView`
   flex: 1;
@@ -19,6 +21,12 @@ const Container = Styled.SafeAreaView`
 const FormContainer = Styled.View`
   width: 100%;
   padding: 40px;
+`;
+
+const Notification = Styled.Text `
+  color : #e94e77;
+  font-size : 14px;
+  margin-bottom : 20px;
 `;
 
 const PasswordReset = Styled.Text`
@@ -44,7 +52,7 @@ const Logo = Styled.Text `
   font-size : 40px;
   font-weight : bold;
   text-align : center;
-  margin-bottom : 40px;
+  margin-bottom : 60px;
 `;
 
 
@@ -54,31 +62,60 @@ interface Props {
 
 const Login = ({ navigation }: Props) => {
   const [email, setEmail] = useState<string>('');
+  const [emailNoti, setEmailNoti] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [passwordNoti, setPasswordNoti] = useState<string>('');
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [isFocus2, setIsFocus2] = useState<boolean>(false);
+  const [activation, setActivation] = useState<boolean>(false);
+
+  useEffect(() => {
+    if(isEmail(email) && isPassword(password))
+      setActivation(true);
+    else
+      setActivation(false);
+  }, [email, password]);
 
   return (
     <Container>
       <FormContainer>
         <Logo>EAT NOW</Logo>
         <Input
-          style={{ marginBottom: 16, borderBottomColor : isFocus? '#e94e77' : '#CCC'}}
+          style={{ marginBottom: 5, borderBottomColor : isFocus? '#e94e77' : '#CCC'}}
           placeholder="이메일" 
           value = {email}
           onChangeText = {(value) => {setEmail(value)}}
           onFocus = {() => setIsFocus(true)}
-          onBlur = {() => setIsFocus(false)}
+          onBlur = {() => {
+            if(!isEmail(email)) {
+              setEmailNoti("⤷입력이 올바르지 않습니다.");
+            }
+            else {
+              setEmailNoti("");
+              setIsFocus(false);
+            }
+          }}
         />
+        <Notification>{emailNoti}</Notification>
         <Input
-          style={{ marginBottom: 25, borderBottomColor : isFocus2? '#e94e77' : '#CCC'}}
+          style={{ marginBottom: 5, borderBottomColor : isFocus2? '#e94e77' : '#CCC'}}
           placeholder="비밀번호"
           secureTextEntry={true}
           value = {password}
           onChangeText = {(value) => {setPassword(value)}}
           onFocus = {() => setIsFocus2(true)}
-          onBlur = {() => setIsFocus2(false)}
+          onBlur = {() => {
+            if(!isPassword(password)) {
+              setPasswordNoti("⤷비밀번호는 6자리 이상 16자리 이하입니다.")
+            }
+            else {
+              setPasswordNoti("");
+              setIsFocus2(false);  
+            }
+          }}
         />
+        <Notification>{passwordNoti}</Notification>
+
         <PasswordReset
           onPress={() => {
             Linking.openURL('https://www.naver.com');
@@ -87,8 +124,9 @@ const Login = ({ navigation }: Props) => {
         </PasswordReset>
         
         <Button
-          style={{ marginBottom: 24 }}
+          style={activation? { marginBottom: 24 } : {marginBottom : 24, backgroundColor : 'silver'}}
           label="로그인"
+          disabled={!activation}
           onPress={() => {
             console.log(email);
             console.log(password);
@@ -137,8 +175,7 @@ Login.navigationOptions = ({navigation} : Props) => {
     headerTitleStyle : {
       fontWeight : 'bold',
     },
-    headerBackTitle : 'kjhkj',  
-  }
+  };
 };
 
 export default Login;

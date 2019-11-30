@@ -10,11 +10,12 @@ import {
 import CheckLogin from '~/Screens/CheckLogin';
 import Login from '~/Screens/Login';
 import Main from '~/Screens/Main';
-import {SignUp, SignUpDone} from '~/Screens/SignUp';
+import {SignUp, SignUp2, SignUpDone} from '~/Screens/SignUp';
 
 const LoginNavigator = createStackNavigator({
     Login,
     SignUp,
+    SignUp2,
 });
 
 
