@@ -48,7 +48,7 @@ const SignupLink = Styled.Text `
 `;
 
 const Logo = Styled.Text `
-  color : #292929;
+  color : #e94e77;
   font-size : 40px;
   font-weight : bold;
   text-align : center;
