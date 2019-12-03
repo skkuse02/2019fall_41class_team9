@@ -2,7 +2,7 @@ import React, { useState, useEffect, Component } from 'react';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
 import {CheckBox} from 'react-native';
 import Styled from 'styled-components/native';
-import Button from '~/Components/Button';
+import {Button, ButtonSet, ButtonSet2} from '~/Components/Button';
 import Input from '~/Components/Input';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {isEmail, isPassword, isMatchPassword} from '~/Components/Auth';
@@ -65,6 +65,8 @@ const Notification = Styled.Text `
   font-size : 14px;
   margin-bottom : 20px;
 `;
+
+const Icon = Styled.Image ``;
 
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
@@ -235,6 +237,7 @@ const SignUp2 = ({ navigation }: Props) => {
               }
             }}
           />
+          
           <Notification>{password2Noti}</Notification>
         </FormContainer>
       </Container>
@@ -265,21 +268,29 @@ const SignUpDone = ({ navigation }: Props) => {
   const tabs = ['1', '2', '3'];
 
   return (
-    <Container>
-      <Description>
+    <Container style={{backgroundColor : '#e94e77'}}>
+      <Title style= {{color : 'white', fontSize : 40}}> 
         회원가입을 환영합니다
-      </Description>
+      </Title>
 
-      <Button 
-        label="시작하기"
-        onPress={() => navigation.navigate('CheckLogin')} 
-        color={"black"}
-        style={{ marginBottom: 24 }}
-      />
 
+      <Box style={{marginTop : 200}}>
+        <View style={{flex : 1}}></View>
+        <ButtonSet
+          label={"시작하기"}
+          onPress={() => navigation.navigate('CheckLogin')} 
+          style={{ marginBottom: 24}}
+          iconName='next'
+        />
+      </Box>
     </Container>
   );
 };
+
+SignUpDone.navigationOptions = {
+  header : null,
+};
+
 
 
 export {SignUp, SignUp2, SignUpDone};

@@ -12,6 +12,16 @@ const StyleButton = Styled.TouchableOpacity`
 const Label = Styled.Text`
   color: #FFFFFF;
 `;
+const Container = Styled.TouchableOpacity `
+  flex-direction : row;
+`;
+const Icon = Styled.Image `
+  justify-content : center;
+  align-items : center;
+  margin-left : 15px;
+  margin-right : 15px;
+`;
+
 
 interface Props {
   label: string;
@@ -29,4 +39,58 @@ const Button = ({ label, style, color, onPress, disabled }: Props) => {
   );
 };
 
-export default Button;
+interface IconProps {
+  iconName : string;
+  onPress? : () => void;
+  style?: Object;
+}
+
+
+const ButtonIcon = ({iconName, onPress, style} : IconProps) => {
+  return(
+      <Container onPress = {onPress} style={style}>
+          <Icon
+              source = {require('~/Assets/Images/next.png')}
+          />
+      </Container>
+  );
+};
+
+
+interface SetProps {
+  label : string;
+  iconName : string;
+  onPress? : () => void;
+  style?: Object;
+}
+
+const ButtonSet = ({label, iconName, onPress, style} : SetProps) => {
+  return(
+      <Container onPress = {onPress} style={style}>
+          <Label style={{fontSize : 40}}>
+              {label}
+          </Label>
+          <Icon
+              source = {require('~/Assets/Images/next.png')}
+              resizeMode = "contain"
+          />
+      </Container>
+  );
+};
+
+const ButtonSet2 = ({label, iconName, onPress, style} : SetProps) => {
+  return(
+      <Container onPress = {onPress} style={style}>
+          <Icon 
+              source = {require('~/Assets/Images/previous.png')}
+          />
+
+          <Label style={{fontSize : 20}}>
+              {label}
+          </Label>
+      </Container>
+  );
+};
+
+
+export {Button, ButtonIcon, ButtonSet, ButtonSet2};

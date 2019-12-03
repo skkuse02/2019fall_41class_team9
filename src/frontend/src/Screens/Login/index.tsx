@@ -5,12 +5,11 @@ import { Linking, TextInputProps, DocumentSelectionState } from 'react-native';
 import Styled from 'styled-components/native';
 
 import Input from '~/Components/Input';
-import Button from '~/Components/Button';
+import {Button} from '~/Components/Button';
 import { JSXElement, JSXAttribute } from '@babel/types';
 import { TextInput } from 'react-native-gesture-handler';
 import styled from 'styled-components';
 import {isEmail, isPassword} from '~/Components/Auth';
-
 
 const Container = Styled.SafeAreaView`
   flex: 1;
