@@ -131,11 +131,11 @@ const SignUp = ({ navigation }: Props) => {
           개인정보 수집 및 이용
         </Description>
         <Read>보기</Read>
-      </Box>  
+      </Box>
 
         <Button label="다음"
           disabled = {!isAllChecked}
-          onPress={() => navigation.navigate('SignUp2')}  
+          onPress={() => navigation.navigate('SignUp2')}
           style={isAllChecked? { marginBottom: 24, marginTop: 50, marginLeft : 24, marginRight : 24} : { marginBottom: 24, marginTop: 50, marginLeft : 24, marginRight : 24, backgroundColor : "silver"}} />
       <Footer>
         <FooterDescription>
@@ -157,7 +157,7 @@ SignUp.navigationOptions = {
     flex : 1,
   },
   headerRight : (<View />),
-  
+
 };
 
 const SignUp2 = ({ navigation }: Props) => {
@@ -215,7 +215,7 @@ const SignUp2 = ({ navigation }: Props) => {
               }
               else {
                 setPasswordNoti("");
-                setIsFocus2(false);  
+                setIsFocus2(false);
               }
             }}
             />
@@ -233,17 +233,44 @@ const SignUp2 = ({ navigation }: Props) => {
               }
               else {
                 setPassword2Noti("");
-                setIsFocus3(false);  
+                setIsFocus3(false);
               }
             }}
           />
-          
+
           <Notification>{password2Noti}</Notification>
         </FormContainer>
       </Container>
       <Button label="다음"
           disabled = {!activation}
-          onPress={() => navigation.navigate('SignUpDone')}  
+          onPress={() => {
+            fetch("https://www.naver.com", {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                email: email,
+                password: password,
+              })
+            })
+              .then((response) => response.json())
+              .then((json) => {
+                if(json.login ==='ok') {
+                  AsyncStorage.setItem('key', json.key);
+                  AsyncStorage.setItem('tutorial', json.tutorial);
+                  navigation.navigate('SignUpDone');
+                }
+                else {
+
+                }
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+
+          }}
           style={activation? { marginBottom: 24, marginTop: 0, marginLeft : 24, marginRight : 24} : { marginBottom: 24, marginTop: 0, marginLeft : 24, marginRight : 24, backgroundColor:"silver"}} />
     </KeyboardAwareScrollView>
   );
@@ -259,7 +286,7 @@ SignUp2.navigationOptions = {
     flex : 1,
   },
   headerRight : (<View />),
-  
+
 };
 
 
@@ -269,7 +296,7 @@ const SignUpDone = ({ navigation }: Props) => {
 
   return (
     <Container style={{backgroundColor : '#e94e77'}}>
-      <Title style= {{color : 'white', fontSize : 40}}> 
+      <Title style= {{color : 'white', fontSize : 40}}>
         회원가입을 환영합니다
       </Title>
 
@@ -278,7 +305,7 @@ const SignUpDone = ({ navigation }: Props) => {
         <View style={{flex : 1}}></View>
         <ButtonSet
           label={"시작하기"}
-          onPress={() => navigation.navigate('CheckLogin')} 
+          onPress={() => navigation.navigate('CheckLogin')}
           style={{ marginBottom: 24}}
           iconName='next'
         />

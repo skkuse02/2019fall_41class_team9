@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
-import { Linking, TextInputProps, DocumentSelectionState } from 'react-native';
+import { Linking, TextInputProps, DocumentSelectionState, Alert } from 'react-native';
 import Styled from 'styled-components/native';
-
 import Input from '~/Components/Input';
 import {Button} from '~/Components/Button';
 import { JSXElement, JSXAttribute } from '@babel/types';
@@ -81,7 +80,7 @@ const Login = ({ navigation }: Props) => {
         <Logo>EAT NOW</Logo>
         <Input
           style={{ marginBottom: 5, borderBottomColor : isFocus? '#e94e77' : '#CCC'}}
-          placeholder="이메일" 
+          placeholder="이메일"
           value = {email}
           onChangeText = {(value) => {setEmail(value)}}
           onFocus = {() => setIsFocus(true)}
@@ -109,7 +108,7 @@ const Login = ({ navigation }: Props) => {
             }
             else {
               setPasswordNoti("");
-              setIsFocus2(false);  
+              setIsFocus2(false);
             }
           }}
         />
@@ -121,7 +120,7 @@ const Login = ({ navigation }: Props) => {
           }}>
           이메일 / 비밀번호 찾기
         </PasswordReset>
-        
+
         <Button
           style={activation? { marginBottom: 24 } : {marginBottom : 24, backgroundColor : 'silver'}}
           label="로그인"
@@ -141,17 +140,32 @@ const Login = ({ navigation }: Props) => {
               })
             })
               .then((response) => response.json())
-              .then((responseData) => {
-                  console.log(
-                      "POST Response",
-                      "Response Body -> " + JSON.stringify(responseData)
-                  )
+              .then((json) => {
+                if(json.login ==='ok') {
+                  AsyncStorage.setItem('key', json.key);
+                  AsyncStorage.setItem('tutorial', json.tutorial);
+                  navigation.navigate('CheckLogin');
+                }
+                else {
+                  Alert.alert(
+                    'Alert Title',
+                    'My Alert Msg',
+                    [
+                      {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    {cancelable: false},
+                  );
+                }
               })
               .catch((error) => {
                 console.error(error);
               });
-              AsyncStorage.setItem('key', 'JWT_KEY');
-              navigation.navigate('MainNavigator');
           }}
         />
 
