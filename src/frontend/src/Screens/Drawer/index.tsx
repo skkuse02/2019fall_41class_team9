@@ -62,6 +62,8 @@ const Drawer = ({ navigation }: Props) => {
       <Footer>
         <Button onPress = {() => {
           AsyncStorage.removeItem('key');
+          AsyncStorage.removeItem('tutorial');
+
           navigation.navigate('CheckLogin');
         }}>
           <ButtonContainer>

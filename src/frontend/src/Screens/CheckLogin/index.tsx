@@ -37,7 +37,7 @@ const CheckLogin = ({ navigation }: Props) => {
       console.log(error);
     });
   */
-  navigation.navigate('MainNav');
+  navigation.navigate('MainNavigator');
 
 
   return (

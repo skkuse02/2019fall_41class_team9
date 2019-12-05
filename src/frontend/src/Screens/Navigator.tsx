@@ -15,6 +15,7 @@ import Login from '~/Screens/Login';
 import {Main, Main2} from '~/Screens/Main';
 import {SignUp, SignUp2, SignUpDone} from '~/Screens/SignUp';
 import Drawer from '~/Screens/Drawer';
+import {Tutorial, Tutorial2} from '~/Screens/Tutorial'
 const LoginNavigator = createStackNavigator({
     Login,
     SignUp,
@@ -26,9 +27,17 @@ const MainNav = createStackNavigator({
     Main2,
 });
 
+const TutorialNavigator = createStackNavigator( {
+    Tutorial,
+    Tutorial2,
+
+});
+
+
 const MainNavigator = createDrawerNavigator(
     {
         MainNav,
+        TutorialNavigator,
     },
     {
         drawerPosition : 'left',
@@ -42,13 +51,13 @@ const SignUpDoneNavigator = createStackNavigator( {
 });
 
 
-
 const AppNavigator = createSwitchNavigator(
     {
         CheckLogin,
         LoginNavigator,
         MainNavigator,
         SignUpDoneNavigator,
+        TutorialNavigator,
     },
     {
         initialRouteName: 'CheckLogin',

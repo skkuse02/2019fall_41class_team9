@@ -128,7 +128,8 @@ const Login = ({ navigation }: Props) => {
           onPress={() => {
             console.log(email);
             console.log(password);
-            fetch("https://www.naver.com", {
+/*
+            fetch("https://www.aaadfsv.ccsg", {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
@@ -148,24 +149,25 @@ const Login = ({ navigation }: Props) => {
                 }
                 else {
                   Alert.alert(
-                    'Alert Title',
-                    'My Alert Msg',
+                    '접속오류',
+                    '접속에 실패하였습니다',
                     [
-                      {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
                       {
                         text: 'Cancel',
-                        onPress: () => console.log('Cancel Pressed'),
                         style: 'cancel',
                       },
-                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                      {},
+                      {text: 'OK'},
                     ],
                     {cancelable: false},
                   );
+
                 }
               })
               .catch((error) => {
                 console.error(error);
               });
+              */
           }}
         />
 
