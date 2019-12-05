@@ -184,7 +184,6 @@ const Tutorial2 = ({ navigation }: Props) => {
         </ButtonIcon>
       </Box>
     </Container>  
-
   );
 };
 
