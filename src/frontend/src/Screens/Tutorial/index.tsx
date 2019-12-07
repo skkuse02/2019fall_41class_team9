@@ -17,16 +17,16 @@ const StyleButton = Styled.TouchableOpacity`
 `;
 
 const Container = Styled.View`
-  background-color: white;
+  background-color: #ddd;
   flex : 1;
 `;
 const ButtonIcon = Styled.TouchableOpacity``;
 
 const Box = Styled.View`
-  background-color: #fafafa;
+  background-color: #eee;
   flex : 1;
   margin : 10px;
-  margin-top : 0px;
+  margin-top : 10px;
   border-radius : 40px;
   align-items : center;
 
@@ -64,23 +64,15 @@ const Description = Styled.Text `
 `;
 const Tutorial = ({ navigation }: Props) => {
     return (    
-        <Container>
-        <ButtonIcon onPress = {() => navigation.dispatch(DrawerActions.openDrawer())}>
-        <Vector
-          style={{marginLeft : 10, marginTop : 10}}
-          size={40}
-          name='ios-menu'
-          color = "gray"
-        />
-        </ButtonIcon>
+        <Container >
         <Box>
-          <View>
+          <View style={{marginTop :120}}>
               <Description style={{fontSize :30,   color : '#e94e77'}}>처음 오셨나요?</Description>
-              <Description>시작하기를 누르고 둘중에 선호하는 음식을 골라주세요</Description>
+              <Description style={{color : 'black'}}>시작하기를 누르고 둘중에 선호하는 음식을 골라주세요</Description>
 
           </View>
           <View2 >
-            <Button style ={{ width : 250, height : 40, margin : 30}}
+            <Button style ={{width : 250, height : 40, margin : 80, borderRadius : 10}}
               label="시작하기"
               onPress={() => navigation.navigate('Tutorial2')}        
             />
@@ -153,31 +145,23 @@ const Tutorial2 = ({ navigation }: Props) => {
     */
     return (
       <Container>
-      <ButtonIcon onPress = {() => navigation.dispatch(DrawerActions.openDrawer())}>
-      <Vector
-        style={{marginLeft : 10, marginTop : 10}}
-        size={40}
-        name='ios-menu'
-        color = "gray"
-      />
-      </ButtonIcon>
       <Box>
         <Description style={{fontSize : 20}}>좋아하는 음식 하나를 선택해주세요</Description>
 
-        <ButtonIcon onPress = {() => navigation.dispatch(DrawerActions.openDrawer())}>
+        <ButtonIcon onPress = {() => {}}>
             <View2>
               <Image
-                style={{width: 200, height: 200}}
-                source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
+                style={{width: 200, height: 200, borderRadius : 10}}
+                source={{uri: 'http://economychosun.com/query/upload/303/20190608214338_gubchoja.jpg'}}
               />
             </View2>
             <View3><FoodName>닭발</FoodName></View3>
         </ButtonIcon>
-        <ButtonIcon onPress = {() => navigation.dispatch(DrawerActions.openDrawer())}>
+        <ButtonIcon onPress = {() => {}}>
             <View2>
               <Image
-                style={{width: 200, height: 200}}
-                source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}
+                style={{width: 200, height: 200, borderRadius : 10}}
+                source={{uri: 'http://economychosun.com/query/upload/303/20190608214338_gubchoja.jpg'}}
               />
               <View3><FoodName>양념치킨</FoodName></View3>
             </View2>

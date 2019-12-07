@@ -29,12 +29,13 @@ interface Props {
   color?: string;
   onPress?: () => void;
   disabled? : boolean;
+  fontSize? :number | undefined;
 }
 
-const Button = ({ label, style, color, onPress, disabled }: Props) => {
+const Button = ({ label, style, color, onPress, disabled, fontSize, }: Props) => {
   return (
     <StyleButton style={style} onPress={onPress} disabled={disabled}>
-      <Label style={{ color: color ? color : '#FFFFFF' }}>{label}</Label>
+      <Label style={{ fontSize: fontSize,  color: color ? color : '#FFFFFF' }}>{label}</Label>
     </StyleButton>
   );
 };

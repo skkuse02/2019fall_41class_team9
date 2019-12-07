@@ -12,7 +12,7 @@ import {
 } from 'react-navigation-drawer';
 import CheckLogin from '~/Screens/CheckLogin';
 import Login from '~/Screens/Login';
-import {Main, Main2} from '~/Screens/Main';
+import {Main, Main2, Main3} from '~/Screens/Main';
 import {SignUp, SignUp2, SignUpDone} from '~/Screens/SignUp';
 import Drawer from '~/Screens/Drawer';
 import {Tutorial, Tutorial2} from '~/Screens/Tutorial'
@@ -25,6 +25,7 @@ const LoginNavigator = createStackNavigator({
 const MainNav = createStackNavigator({
     Main,
     Main2,
+    Main3,
 });
 
 const TutorialNavigator = createStackNavigator( {
@@ -37,7 +38,6 @@ const TutorialNavigator = createStackNavigator( {
 const MainNavigator = createDrawerNavigator(
     {
         MainNav,
-        TutorialNavigator,
     },
     {
         drawerPosition : 'left',
