@@ -17,18 +17,12 @@ interface Props {
 
 const CheckLogin = ({ navigation }: Props) => {
 
-  /*
+
   AsyncStorage.getItem('key')
     .then(value => {
       if (value) {
-        AsyncStorage.getItem('tutorial')
-          .then(value2 => {
-              if(value2 === "ok")
-                navigation.navigate('MainNavigator');
-              else
-                navigation.navigate('Tutorial');
-          })
-
+        console.log(value);
+        navigation.navigate('MainNav');
       } else {
         navigation.navigate('LoginNavigator');
       }
@@ -36,9 +30,6 @@ const CheckLogin = ({ navigation }: Props) => {
     .catch((error: Error) => {
       console.log(error);
     });
-  */
-  navigation.navigate('TutorialNavigator');
-
 
   return (
     <Container>

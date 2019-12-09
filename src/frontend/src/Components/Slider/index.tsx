@@ -12,10 +12,11 @@ interface Props {
     width : number;
     height : number;
     backgroundColor :Array<string>;
-    onPressOut : (value : number)=>void
+    onPressOut : (value : number)=>void;
+    onValueChanged : (value :number) => void;
   }
-  
-const Slider = ({style, title, units, max, min, value, width, height, backgroundColor, onPressOut} :Props) => {
+
+const Slider = ({style, title, units, max, min, value, width, height, backgroundColor, onValueChanged, onPressOut} :Props) => {
     return(
       <MotionSlider
         style={style}
@@ -31,14 +32,14 @@ const Slider = ({style, title, units, max, min, value, width, height, background
         valueBackgroundColor='white'
         fontWeight='bold'
         fontFamily=''
-        title={title} 
-        min={min} 
+        title={title}
+        min={min}
         max={max}
-        value={value} 
+        value={value}
         decimalPlaces={0}
         units={units}
         backgroundColor={backgroundColor}
-        onValueChanged={(value : Number) => console.log(value)}
+        onValueChanged={onValueChanged}
         onPressIn={() =>{}}
         onPressOut={onPressOut}
         onDrag={(value : number) => {}}

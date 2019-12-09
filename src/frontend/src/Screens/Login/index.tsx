@@ -128,30 +128,37 @@ const Login = ({ navigation }: Props) => {
           onPress={() => {
             console.log(email);
             console.log(password);
-/*
-            fetch("https://www.aaadfsv.ccsg", {
+
+            fetch("http://218.209.210.102:7897/api/usr/login", {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                email: email,
-                password: password,
+                "userid": email,
+                "userpw": password,
               })
             })
               .then((response) => response.json())
               .then((json) => {
-                if(json.login ==='ok') {
-                  AsyncStorage.setItem('email', email);                  
-                  AsyncStorage.setItem('key', json.key);
-                  AsyncStorage.setItem('tutorial', json.tutorial);
-                  navigation.navigate('CheckLogin');
+                if(json.message ==='success') {
+                  console.log('tq');
+                  AsyncStorage.setItem('email', JSON.stringify(email))
+                    .then(()=>{
+                      AsyncStorage.setItem('key', JSON.stringify(json.sn))
+                      .then(()=>{
+                        AsyncStorage.setItem('token', JSON.stringify(json.token))
+                          .then(()=> {
+                            navigation.navigate('MainNav');
+                          });
+                      });
+                    });
                 }
                 else {
                   Alert.alert(
                     '접속오류',
-                    '접속에 실패하였습니다',
+                    '아이디나 비밀번호 혹은 연결상태를 확인해주세요',
                     [
                       {
                         text: 'Cancel',
@@ -168,7 +175,6 @@ const Login = ({ navigation }: Props) => {
               .catch((error) => {
                 console.error(error);
               });
-              */
           }}
         />
 

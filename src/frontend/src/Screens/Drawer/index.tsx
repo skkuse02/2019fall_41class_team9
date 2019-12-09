@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/SimpleLineIcons';
+import {Alert} from 'react-native';
 
 const Container = Styled.SafeAreaView`
   flex: 1;
@@ -20,7 +21,7 @@ const Title = Styled.Text`
 `;
 const Button = Styled.TouchableOpacity`
   padding: 8px 16px;
-  
+
 `;
 const ButtonContainer = Styled.View`
   flex-direction: row;
@@ -59,31 +60,51 @@ const Drawer = ({ navigation }: Props) => {
       <Header>
         <Title>{email}</Title>
       </Header>
-      <Button>
+      <Button onPress = {() =>
+        Alert.alert(
+          '내 정보',
+          email,
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {},
+            {text: 'OK'},
+          ],
+          {cancelable: false},
+        )
+      }>
         <ButtonContainer>
           <Icon
             style={{marginRight : 10}}
             size={30}
             name='person'
             color = "black"
-            
+
           />
           <Label>내정보</Label>
         </ButtonContainer>
       </Button>
       <Footer>
         <Button onPress = {() => {
-          AsyncStorage.removeItem('email');
-          AsyncStorage.removeItem('key');
-          AsyncStorage.removeItem('tutorial');
-          navigation.navigate('CheckLogin');
+          AsyncStorage.removeItem('email')
+            .then(()=>{
+              AsyncStorage.removeItem('key')
+                .then(()=>{
+                  AsyncStorage.removeItem('token')
+                    .then(()=>{
+                      navigation.navigate('CheckLogin');
+                    });
+                });
+            });
         }}>
           <ButtonContainer>
             <Icon2
               style={{marginRight : 10}}
               size={30}
               name='logout'
-              color = "black"      
+              color = "black"
             />
             <Title>로그아웃</Title>
           </ButtonContainer>

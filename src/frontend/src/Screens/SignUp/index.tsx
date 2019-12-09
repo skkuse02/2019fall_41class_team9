@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component } from 'react';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
-import {CheckBox} from 'react-native';
+import {CheckBox, Alert} from 'react-native';
 import Styled from 'styled-components/native';
 import {Button, ButtonSet, ButtonSet2} from '~/Components/Button';
 import Input from '~/Components/Input';
@@ -69,6 +69,8 @@ const Notification = Styled.Text `
 
 const Icon = Styled.Image ``;
 
+const Touchable = Styled.TouchableOpacity ``;
+
 interface Props {
   navigation: NavigationScreenProp<NavigationState>;
 }
@@ -124,14 +126,42 @@ const SignUp = ({ navigation }: Props) => {
         <Description onPress = {() => setCheck(!isChecked)}>
           이용약관
         </Description>
-        <Read>보기</Read>
+        <Touchable onPress = {()=>
+          Alert.alert(
+            '이용약관',
+            '본 어플리케이션은 유저의 음식 선호도를 바탕으로 적절한 음식을 추천해주는 시스템입니다.',
+            [
+              {
+                text: 'Cancel',
+                  style: 'cancel',
+              },
+              {},
+              {text: 'OK'},
+            ],
+            {cancelable: false},
+          )}
+        ><Read>보기</Read></Touchable>
       </Box>
       <Box>
         <CheckBox value= {isChecked2} onChange = {() => setCheck2(!isChecked2)} />
         <Description onPress = {() => setCheck2(!isChecked2)}>
           개인정보 수집 및 이용
         </Description>
-        <Read>보기</Read>
+        <Touchable onPress = {()=>
+          Alert.alert(
+            '개인정보 수집 및 이용 동의서',
+            '이용자가 제공한 모든 정보는 음식 추천, 유저 관리 의외에는 사용되지 않습니다. 수집항목 : 이메일, 비밀번호',
+            [
+              {
+                text: 'Cancel',
+                  style: 'cancel',
+              },
+              {},
+              {text: 'OK'},
+            ],
+            {cancelable: false},
+          )}
+        ><Read>보기</Read></Touchable>
       </Box>
 
         <Button label="다음"
@@ -245,23 +275,24 @@ const SignUp2 = ({ navigation }: Props) => {
       <Button label="다음"
           disabled = {!activation}
           onPress={() => {
-            fetch("https://www.naver.com", {
+            fetch("http://218.209.210.102:7897/api/usr/signup", {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                email: email,
-                password: password,
+                "userid": email,
+                "userpw": password,
               })
             })
               .then((response) => response.json())
               .then((json) => {
-                if(json.login ==='ok') {
+                console.log(json);
+                if(json.message ==='success') {
                   AsyncStorage.setItem('email', email);
-                  AsyncStorage.setItem('key', json.key);
-                  AsyncStorage.setItem('tutorial', json.tutorial);
+                  AsyncStorage.setItem('key', JSON.stringify(json.sn));
+                  AsyncStorage.setItem('token', json.token);
                   navigation.navigate('SignUpDone');
                 }
                 else {
@@ -307,7 +338,7 @@ const SignUpDone = ({ navigation }: Props) => {
         <View style={{flex : 1}}></View>
         <ButtonSet
           label={"시작하기"}
-          onPress={() => navigation.navigate('CheckLogin')}
+          onPress={() => navigation.navigate('TutorialNavigator')}
           style={{ marginBottom: 24}}
           iconName='next'
         />
