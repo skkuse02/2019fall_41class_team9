@@ -143,6 +143,7 @@ const Login = ({ navigation }: Props) => {
               .then((response) => response.json())
               .then((json) => {
                 if(json.login ==='ok') {
+                  AsyncStorage.setItem('email', email);                  
                   AsyncStorage.setItem('key', json.key);
                   AsyncStorage.setItem('tutorial', json.tutorial);
                   navigation.navigate('CheckLogin');

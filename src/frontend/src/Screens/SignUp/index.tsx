@@ -6,6 +6,7 @@ import {Button, ButtonSet, ButtonSet2} from '~/Components/Button';
 import Input from '~/Components/Input';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {isEmail, isPassword, isMatchPassword} from '~/Components/Auth';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Container = Styled.SafeAreaView`
   flex: 1;
@@ -258,6 +259,7 @@ const SignUp2 = ({ navigation }: Props) => {
               .then((response) => response.json())
               .then((json) => {
                 if(json.login ==='ok') {
+                  AsyncStorage.setItem('email', email);
                   AsyncStorage.setItem('key', json.key);
                   AsyncStorage.setItem('tutorial', json.tutorial);
                   navigation.navigate('SignUpDone');

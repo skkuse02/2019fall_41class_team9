@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationScreenProp, NavigationState, NavigationScreenOptionsGetter, NavigationActions, NavigationScreenComponent } from 'react-navigation';
 import Styled from 'styled-components/native';
-import MainBackground from '~/Components/MainBackground';
 import {Button} from '~/Components/Button';
 import { DrawerActions } from 'react-navigation-drawer';
 import Vector from 'react-native-vector-icons/Ionicons';
@@ -86,89 +85,95 @@ const Tutorial = ({ navigation }: Props) => {
 
 const Tutorial2 = ({ navigation }: Props) => {
 
-    const [food, setFood] = useState<Array<Food>>();
-    const [food1, setFood1] = useState<Food>();
-    const [food2, setFood2] = useState<Food>();
-    let arr : Array<Food>
-    const getFoods = () => {
-      let ff : Food;
-      AsyncStorage.getItem('key')
-      .then(value => {
-        fetch("https://www.aaadfsv.ccsg", {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            key: value,
-          })
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            if(json.login ==='ok') {
-              setFood([...json.food])
-            }
-            else {
-              Alert.alert(
-                '접속오류',
-                '접속에 실패하였습니다',
-                [
-                  {
-                    text: 'Cancel',
-                    style: 'cancel',
-                  },
-                  {},
-                  {text: 'OK'},
-                ],
-                {cancelable: false},
-              );
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });  
-      });
-    }
+    const [food, setFood] = useState<Array<number>>([0,1,2,3,4,5,6,7]);
+    const [food1, setFood1] = useState<number>(0);
+    const [food2, setFood2] = useState<number>(1);
 
-    const getFood = () => {
-      setFood1(food![0]);
-      setFood2(food![1]);
-      food.splice(0, 2);
-      setFood(food);
-    }
+    const items = [
+        {
+            name: '001',
+            picture: require('../../Assets/Images/1.jpeg'),
+        },
+        {
+            name: '002',
+            picture: require('../../Assets/Images/2.jpeg'),
+        },
+        {
+            name: '003',
+            picture: require('../../Assets/Images/3.jpeg'),
+        },
+        {
+            name: '004',
+            picture: require('../../Assets/Images/4.jpeg'),
+        },
+        {
+            name: '005',
+            picture: require('../../Assets/Images/5.jpeg'),
+        },
+        {
+            name: '006',
+            picture: require('../../Assets/Images/6.jpeg'),
+        },
+        {
+            name: '007',
+            picture: require('../../Assets/Images/7.jpeg'),
+        },
+        {
+            name: '008',
+            picture: require('../../Assets/Images/8.jpeg'),
+        },
+    ];
+  
+    useEffect(() => {
+      setFood1(food[0]);
+      setFood2(food[1]);
+    }, [food]);
 
-    /*
-    useEffect(()=> {
-      getFoods();
-    }, []);
-    */
+      const getFood = (i : number) => {
+      let value : Array<number> = [...food, i];
+      value.splice(0,2);
+      if(value.length === 1) navigation.navigate('MainNav');
+      setFood([...value])
+    };
+
+    const renderImage1 = () => {
+      return (
+        <View2>
+          <Image
+            style={{width: 200, height: 200, borderRadius : 10}}
+            source={items[food1].picture}
+          />
+          <View3><FoodName>{items[food1].name}</FoodName></View3>
+        </View2>
+      );
+    };
+
+    const renderImage2 = () => {
+      return (
+        <View2>
+          <Image
+            style={{width: 200, height: 200, borderRadius : 10}}
+            source={items[food2].picture}
+          />
+          <View3><FoodName>{items[food2].name}</FoodName></View3>
+        </View2>
+      );
+    };
+
     return (
       <Container>
-      <Box>
-        <Description style={{fontSize : 20}}>좋아하는 음식 하나를 선택해주세요</Description>
+        <Box>
+          <Description style={{fontSize : 20}}>좋아하는 음식 하나를 선택해주세요</Description>
 
-        <ButtonIcon onPress = {() => {}}>
-            <View2>
-              <Image
-                style={{width: 200, height: 200, borderRadius : 10}}
-                source={{uri: 'http://economychosun.com/query/upload/303/20190608214338_gubchoja.jpg'}}
-              />
-            </View2>
-            <View3><FoodName>닭발</FoodName></View3>
-        </ButtonIcon>
-        <ButtonIcon onPress = {() => {}}>
-            <View2>
-              <Image
-                style={{width: 200, height: 200, borderRadius : 10}}
-                source={{uri: 'http://economychosun.com/query/upload/303/20190608214338_gubchoja.jpg'}}
-              />
-              <View3><FoodName>양념치킨</FoodName></View3>
-            </View2>
-        </ButtonIcon>
-      </Box>
-    </Container>  
-  );
+          <ButtonIcon onPress = {() => getFood(food1!)}>
+            {renderImage1()}
+          </ButtonIcon>
+          <ButtonIcon onPress = {() => getFood(food2!)}>
+            {renderImage2()}
+          </ButtonIcon>
+        </Box>
+      </Container>  
+    );
 };
 
 Tutorial.navigationOptions = ({navigation} : Props) => {

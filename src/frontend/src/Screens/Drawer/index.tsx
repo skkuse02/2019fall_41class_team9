@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Styled from 'styled-components/native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationScreenProp, NavigationState } from 'react-navigation';
@@ -42,10 +42,22 @@ interface Props {
 }
 
 const Drawer = ({ navigation }: Props) => {
+  const [email, setEmail] = useState<string | null>('');
+
+  useEffect(() => {
+    AsyncStorage.getItem('email')
+    .then(value => {
+      setEmail(value);
+    })
+    .catch((error: Error) => {
+      console.log(error);
+    })
+  }, []);
+
   return (
     <Container>
       <Header>
-        <Title>Sara Lambert</Title>
+        <Title>{email}</Title>
       </Header>
       <Button>
         <ButtonContainer>
@@ -61,9 +73,9 @@ const Drawer = ({ navigation }: Props) => {
       </Button>
       <Footer>
         <Button onPress = {() => {
+          AsyncStorage.removeItem('email');
           AsyncStorage.removeItem('key');
           AsyncStorage.removeItem('tutorial');
-
           navigation.navigate('CheckLogin');
         }}>
           <ButtonContainer>
