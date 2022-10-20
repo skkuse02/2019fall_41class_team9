@@ -22,7 +22,7 @@
     "react-native-keyboard-aware-scroll-view": "0.9.1",
     "react-native-motion-slider": "1.0.3",
     "react-native-nmap": "0.0.37",
-    "react-native-reanimated": "1.4.0",
+    "react-native-reanimated": "2.10.0",
     "react-native-splash-screen": "3.2.0",
     "react-native-vector-icons": "6.6.0",
     "react-navigation": "4.0.10",
